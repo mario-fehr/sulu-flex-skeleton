@@ -1,0 +1,28 @@
+
+
+# web
+/public/bundles
+/public/uploads
+
+# composer
+/composer.phar
+
+# npm
+node_modules
+.yarn
+
+# phpcs
+.php_cs.cache
+.php_cs
+
+# IDEs
+/.idea
+*.iml
+*~
+.web-server-pid
+
+# System files
+.DS_Store
+
+
+
