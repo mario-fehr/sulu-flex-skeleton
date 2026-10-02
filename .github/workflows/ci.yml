@@ -1,0 +1,20 @@
+name: CI
+
+on:
+    pull_request:
+    push:
+        branches:
+            - '3.0'
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    qa:
+        uses: mario-fehr/sulu-recipes/.github/workflows/qa.yml@main
+        with:
+            recipes-repository: mario-fehr/sulu-recipes
+            recipes-ref: main
+            skeleton-repository: ${{ github.repository }}
+            skeleton-ref: ${{ github.sha }}

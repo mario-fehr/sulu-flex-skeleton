@@ -173,7 +173,7 @@
       "allow-contrib": true,
       "require": "7.4.*",
       "endpoint": [
-        "http://127.0.0.1:8000/index.json",
+        "https://raw.githubusercontent.com/mario-fehr/sulu-recipes/flex/main/index.json",
         "flex://defaults"
       ]
     }
