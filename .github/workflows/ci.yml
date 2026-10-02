@@ -18,3 +18,4 @@ jobs:
             recipes-ref: main
             skeleton-repository: ${{ github.repository }}
             skeleton-ref: ${{ github.sha }}
+            line: '3.0'
