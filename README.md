@@ -1,5 +1,8 @@
 # sulu-flex-skeleton
 
+> [!WARNING]
+> This project is in heavy development. The recipes it installs, the file layout and the behavior may still change without notice, and it is not ready for production use.
+
 A Sulu 3.0 project template with no application files of its own. Symfony Flex installs everything from the [sulu-recipes](https://github.com/mario-fehr/sulu-recipes) endpoint.
 
     composer create-project mario-fehr/sulu-flex-skeleton my-project --repository='{"type":"vcs","url":"https://github.com/mario-fehr/sulu-flex-skeleton"}'
