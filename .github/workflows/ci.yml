@@ -11,6 +11,40 @@ permissions:
     contents: read
 
 jobs:
+    tag:
+        name: tag
+        needs: qa
+        if: github.event_name == 'push'
+        runs-on: ubuntu-24.04
+        timeout-minutes: 5
+        permissions:
+            contents: write
+        steps:
+            -
+                uses: actions/checkout@v7
+            -
+                env:
+                    LINE: ${{ github.ref_name }}
+                    GH_TOKEN: ${{ github.token }}
+                shell: bash
+                run: |
+                    version="$(gh api -H 'Accept: application/vnd.github.raw' "repos/mario-fehr/sulu-recipes/contents/tests/lines/$LINE.env?ref=main" | sed -n 's/^SULU_SKELETON_VERSION=//p')"
+                    if [[ "$version" != "$LINE".* ]]; then
+                        echo "SULU_SKELETON_VERSION $version in sulu-recipes is not a $LINE version" >&2
+                        exit 1
+                    fi
+                    constraint="$(jq -r '.require["sulu/sulu"]' composer.json)"
+                    upstream="$(gh api -H 'Accept: application/vnd.github.raw' "repos/sulu/skeleton/contents/composer.json?ref=$version" | jq -r '.require["sulu/sulu"]')"
+                    if [ "$constraint" != "$upstream" ]; then
+                        echo "sulu/sulu $constraint differs from $upstream in sulu/skeleton $version" >&2
+                        exit 1
+                    fi
+                    if git ls-remote --exit-code --tags origin "refs/tags/$version" >/dev/null; then
+                        echo "$version exists"
+                        exit 0
+                    fi
+                    git push origin "$GITHUB_SHA:refs/tags/$version"
+
     qa:
         uses: mario-fehr/sulu-recipes/.github/workflows/qa.yml@main
         with:
